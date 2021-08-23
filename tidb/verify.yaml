@@ -1,10 +1,9 @@
 build:
-  shell-script: |
-    export GOPATH = xxx
-    make build
-  output-dir: /tmp/
-  timeout: 300
-  build-env:
+  shellScript: |
+    make
+  outputDir: /tmp/
+  timeout: 5
+  buildEnv:
     image: golang:1.16
     request:
       cpu: 4
@@ -13,13 +12,13 @@ build:
       cpu: 4
       mem: 8Gi
 
-unit-test:
-  shell-script: |
-    export GOPATH = xxx
+unitTest:
+  shellScript: |
+    expoort GOPATH = xxx
     go test -v -cov 
-  report-dir: /tmp/*.xml
-  case-pass-rate: 95
-  build-env:
+  reportDir: /tmp/*.xml
+  casePassRate: 95
+  buildEnv:
     image: golang:1.16
     request:
       cpu: 4
@@ -28,11 +27,11 @@ unit-test:
       cpu: 4
       mem: 8Gi
       
-ci-lint:
-  report-dir: /tmp/xxx.html
+lint:
+  reportDir: /tmp/xxx.html
 
 coverage:
-  shell-script: |
+  shellScript: |
     make coverage
-  report-dir: xxx.html
-  coverage-rate: 50
+  reportDir: xxx.html
+  coverageRate: 50
