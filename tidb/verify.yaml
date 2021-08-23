@@ -27,6 +27,7 @@ go test -v -cov
     limit:
       cpu: 4
       mem: 8Gi
+      
 ci-lint:
   report-dir: /tmp/xxx.html
 
