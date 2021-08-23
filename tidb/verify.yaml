@@ -3,7 +3,7 @@ build:
     export GOPATH = xxx
     make build
   output-dir: /tmp/
-  timeout: 5
+  timeout: 300
   build-env:
     image: golang:1.16
     request:
