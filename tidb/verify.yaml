@@ -1,7 +1,7 @@
 build:
   shell-script: |
-expoort GOPATH = xxx
-make build
+    expoort GOPATH = xxx
+    make build
   output-dir: /tmp/
   timeout: 5
   build-env:
@@ -15,8 +15,8 @@ make build
 
 unit-test:
   shell-script: |
-expoort GOPATH = xxx
-go test -v -cov 
+    expoort GOPATH = xxx
+    go test -v -cov 
   report-dir: /tmp/*.xml
   case-pass-rate: 95
   build-env:
@@ -33,6 +33,6 @@ ci-lint:
 
 coverage:
   shell-script: |
-make coverage
+    make coverage
   report-dir: xxx.html
   coverage-rate: 50
