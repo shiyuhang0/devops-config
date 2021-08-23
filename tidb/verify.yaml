@@ -1,6 +1,6 @@
 build:
   shell-script: |
-    expoort GOPATH = xxx
+    export GOPATH = xxx
     make build
   output-dir: /tmp/
   timeout: 5
@@ -15,7 +15,7 @@ build:
 
 unit-test:
   shell-script: |
-    expoort GOPATH = xxx
+    export GOPATH = xxx
     go test -v -cov 
   report-dir: /tmp/*.xml
   case-pass-rate: 95
