@@ -41,20 +41,32 @@ output:
 
 
 linters:
-  enable-all: true
-  fast: false
+  enable:
+      - misspell
+      - ineffassign
+      - typecheck
+      - varcheck
+      - unused
+      - structcheck
+      - deadcode
+      - gosimple
+      - goimports
+      - errcheck
+      - staticcheck
+      - stylecheck
+      - gosec
 
 linters-settings:
 
   staticcheck:
     # Select the Go version to target. The default is '1.13'.
-    go: "1.15"
+    go: "1.16"
     # https://staticcheck.io/docs/options#checks
     checks: [ "all" ]
 
   stylecheck:
     # Select the Go version to target. The default is '1.13'.
-    go: "1.15"
+    go: "1.16"
     # https://staticcheck.io/docs/options#checks
     checks: [ "all"]
     # https://staticcheck.io/docs/options#dot_import_whitelist
