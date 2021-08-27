@@ -1,8 +1,9 @@
 build:
   shellScript: |
-    make
-  outputDir: /tmp/
-  timeout: 5
+    make build
+    make install bin
+  outputDir: bin
+  timeout: 10
   buildEnv:
     image: golang:1.16
     request:
@@ -14,10 +15,10 @@ build:
 
 unitTest:
   shellScript: |
-    expoort GOPATH = xxx
-    go test -v -cov 
-  utReportDir: ut/*.xml
-  covReportDir: cov/*.xml
+    go test -v ./... -coverprofile=cover.out |go-junit-report > test.xml
+    gocov convert cover.out | gocov-xml > coverage.xml
+  utReportDir: test.xml
+  covReportDir: coverage.xml
   coverageRate: 50
   buildEnv:
     image: golang:1.16
