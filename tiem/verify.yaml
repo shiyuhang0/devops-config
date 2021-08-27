@@ -1,7 +1,6 @@
 build:
   shellScript: |
     make build
-    make install bin
   outputDir: bin
   timeout: 10
   buildEnv:
