@@ -14,8 +14,7 @@ build:
 
 unitTest:
   shellScript: |
-    go test -v ./... -coverprofile=cover.out |go-junit-report > test.xml
-    gocov convert cover.out | gocov-xml > coverage.xml
+    make test
   utReportDir: test.xml
   covReportDir: coverage.xml
   coverageRate: 50
@@ -30,7 +29,7 @@ unitTest:
       
 lint:
   shellScript: |
-    golangci-lint run  --out-format=junit-xml  --timeout=10m -v ./... > golangci-lint-report.xml
+    make lint
   reportDir: golangci-lint-report.xml
 
 cyclo:
