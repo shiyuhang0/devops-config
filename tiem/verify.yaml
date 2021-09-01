@@ -32,3 +32,7 @@ lint:
   shellScript: |
     golangci-lint run  --out-format=junit-xml  --timeout=10m -v ./... > golangci-lint-report.xml
   reportDir: golangci-lint-report.xml
+
+cyclo:
+  shellScript: |
+    gocyclo -over 20 -avg ./
