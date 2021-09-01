@@ -35,4 +35,4 @@ lint:
 
 cyclo:
   shellScript: |
-    gocyclo -over 10 -avg ./
+    gocyclo -over 20 -avg ./
