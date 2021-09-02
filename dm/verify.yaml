@@ -1,0 +1,29 @@
+build:
+  shellScript: |
+    make
+  outputDir: /tmp/
+  timeout: 5
+  buildEnv:
+    image: golang:1.16
+    request:
+      cpu: 4
+      mem: 8Gi
+    limit:
+      cpu: 4
+      mem: 8Gi
+
+lint:
+  shellScript: |
+    make lint
+
+unitTest:
+  shellScript: |
+    make unit_test
+  buildEnv:
+    image: golang:1.16
+    request:
+      cpu: 4
+      mem: 8Gi
+    limit:
+      cpu: 4
+      mem: 8Gi
