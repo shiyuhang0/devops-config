@@ -1,0 +1,22 @@
+version: 1
+
+tasks:
+  - name: check-file-encoding
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git fetch upstream
+      wget https://raw.githubusercontent.com/CharLotteiu/pingcap-docs-checks/main/check-file-encoding.py
+      python3 check-file-encoding.py $(git diff-tree --name-only --no-commit-id -r upstream/master..HEAD -- '*.md' ':(exclude).github/*')
+    buildEnv:
+      image: circleci/node:lts
+
+  - name: check-git-conflicts
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git fetch upstream
+      wget https://raw.githubusercontent.com/CharLotteiu/pingcap-docs-checks/main/check-conflicts.py
+      python3 check-conflicts.py $(git diff-tree --name-only --no-commit-id -r upstream/master..HEAD -- '*.md' '*.yml' '*.yaml')
+    buildEnv:
+      image: circleci/node:lts
