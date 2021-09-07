@@ -1,34 +1,40 @@
-build:
-  shellScript: |
-    make
-  outputDir: /tmp/
-  timeout: 5
-  buildEnv:
-    image: golang:1.16
-    request:
-      cpu: 4
-      mem: 8Gi
-    limit:
-      cpu: 4
-      mem: 8Gi
+version: 1
 
-unitTest:
-  shellScript: |
-    expoort GOPATH = xxx
-    go test -v -cov 
-  utReportDir: ut/*.xml
-  covReportDir: cov/*.xml
-  coverageRate: 50
-  buildEnv:
-    image: golang:1.16
-    request:
-      cpu: 4
-      mem: 8Gi
-    limit:
-      cpu: 4
-      mem: 8Gi
-      
-lint:
-  shellScript: |
-    golangci-lint run  --out-format=junit-xml  --timeout=10m -v ./... > golangci-lint-report.xml
-  reportDir: golangci-lint-report.xml
+tasks:
+  - name: tidb-build
+    taskType: build
+    shellScript: |
+      make
+    outputDir: bin
+    timeout: 10
+    buildEnv:
+      image: golang:1.16
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
+
+  - name: tidb-ut
+    taskType: unit-test
+    shellScript: |
+      expoort GOPATH = xxx
+      go test -v -cov 
+    utReportDir: ut/*.xml
+    covReportDir: cov/*.xml
+    coverageRate: 50
+    buildEnv:
+      image: golang:1.16
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
+
+  - name: tidb-lint
+    taskType: lint
+    shellScript: |
+      golangci-lint run  --out-format=junit-xml  --timeout=10m -v ./... > golangci-lint-report.xml
+    reportDir: golangci-lint-report.xml

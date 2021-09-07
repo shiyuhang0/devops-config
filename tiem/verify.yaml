@@ -1,42 +1,50 @@
-build:
-  shellScript: |
-    make build
-  outputDir: bin
-  timeout: 10
-  buildEnv:
-    image: golang:1.16
-    request:
-      cpu: 4
-      mem: 8Gi
-    limit:
-      cpu: 4
-      mem: 8Gi
+version: 1
 
-unitTest:
-  shellScript: |
-    make test
-  utReportDir: test.xml
-  covReportDir: coverage.xml
-  coverageRate: 80
-  buildEnv:
-    image: golang:1.16
-    request:
-      cpu: 4
-      mem: 8Gi
-    limit:
-      cpu: 4
-      mem: 8Gi
-      
-lint:
-  shellScript: |
-    make lint
-  reportDir: golangci-lint-report.xml
+tasks:
+  - name: tiem-build
+    taskType: build
+    shellScript: |
+      make build
+    outputDir: bin
+    timeout: 10
+    buildEnv:
+      image: golang:1.16
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
 
-cyclo:
-  shellScript: |
-    gocyclo -over 20 -avg ./ || true
+  - name: tiem-ut
+    taskType: unit-test
+    shellScript: |
+      make test
+    utReportDir: test.xml
+    covReportDir: coverage.xml
+    coverageRate: 80
+    buildEnv:
+      image: golang:1.16
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
 
-gosec:
-  shellScript: |
-    gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G307,G401,G404,G501,G505,G601 ./... || true
-  reportDir: results.xml
+  - name: tiem-lint
+    taskType: lint
+    shellScript: |
+      make lint
+    reportDir: golangci-lint-report.xml
+
+  - name: tiem-cyclo
+    taskType: cyclo
+    shellScript: |
+      gocyclo -over 20 -avg ./ || true
+
+  - name: tiem-gosec
+    taskType: gosec
+    shellScript: |
+      gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G307,G401,G404,G501,G505,G601 ./... || true
+    reportDir: results.xml
