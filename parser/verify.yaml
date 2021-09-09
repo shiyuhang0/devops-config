@@ -10,27 +10,12 @@ tasks:
     buildEnv:
       image: golang:1.16
 
-  - name: parser-integration-test 
-    taskType: common
-    shellScript: |
-      cd ../
-      JENKINS_WORKSPACE=$(pwd)
-      git clone --depth=1 https://github.com/pingcap/tidb.git
-      cd tidb
-      rm go.sum
-      GO111MODULE=on go mod edit -replace github.com/pingcap/parser=$JENKINS_WORKSPACE/parser
-      go mod tidy
-      make gotest
-    buildEnv:
-      image: golang:1.16
-
   - name: parser-format
     taskType: common
     shellScript: |
       make fmt
     buildEnv:
       image: golang:1.16
-
 
   - name: parser-ut
     taskType: unit-test
