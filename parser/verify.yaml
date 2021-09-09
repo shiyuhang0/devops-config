@@ -30,3 +30,27 @@ tasks:
       make fmt
     buildEnv:
       image: golang:1.16
+
+
+  - name: parser-ut
+    taskType: unit-test
+    shellScript: |
+      make test
+      
+      GO111MODULE=off go get github.com/axw/gocov/gocov
+      GO111MODULE=off go get github.com/jstemmer/go-junit-report
+      GO111MODULE=off go get github.com/AlekSi/gocov-xml
+      GO111MODULE=on go test -v -p 1 -race -covermode=atomic -coverprofile=cover.out -coverpkg=./... ./... | go-junit-report > test.xml
+      gocov convert cover.out | gocov-xml > coverage.xml
+
+    utReportDir: test.xml
+    covReportDir: coverage.xml
+    coverageRate: 80
+    buildEnv:
+      image: golang:1.16
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
