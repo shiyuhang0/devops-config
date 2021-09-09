@@ -14,14 +14,15 @@ tasks:
     taskType: common
     shellScript: |
       pwd && ls -alh
-      echo $ws
-      
-      git clone --depth=1 https://github.com/pingcap/tidb.git
-      cd tidb
-      rm go.sum
-      GO111MODULE=on go mod edit -replace github.com/pingcap/parser=$JENKINS_WORKSPACE/parser
-      go mod tidy
-      make gotest
+      echo \${ws}
+
+      cd \${ws}
+      # git clone --depth=1 https://github.com/pingcap/tidb.git
+      # cd tidb
+      # rm go.sum
+      # GO111MODULE=on go mod edit -replace github.com/pingcap/parser=$JENKINS_WORKSPACE/parser
+      # go mod tidy
+      # make gotest
     buildEnv:
       image: golang:1.16
 
