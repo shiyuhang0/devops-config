@@ -4,7 +4,7 @@ tasks:
   - name: check file encoding
     taskType: common
     shellScript: |
-      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git remote add upstream https://github.com/pingcap/docs.git
       git fetch upstream
       wget https://raw.githubusercontent.com/pingcap/docs/master/scripts/check-file-encoding.py
       python3 check-file-encoding.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
@@ -14,7 +14,7 @@ tasks:
   - name: check git conflicts
     taskType: common
     shellScript: |
-      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git remote add upstream https://github.com/pingcap/docs.git
       git fetch upstream
       wget https://raw.githubusercontent.com/pingcap/docs/master/scripts/check-conflicts.py
       python3 check-conflicts.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' '*.yml' '*.yaml')
@@ -25,7 +25,7 @@ tasks:
     taskType: common
     shellScript: |
       npm install -g markdownlint-cli@0.17.0
-      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git remote add upstream https://github.com/pingcap/docs.git
       git fetch upstream
       markdownlint $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
     buildEnv:
@@ -48,7 +48,7 @@ tasks:
   - name: "Check control characters"
     taskType: common
     shellScript: |
-      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git remote add upstream https://github.com/pingcap/docs.git
       git fetch upstream
       wget https://raw.githubusercontent.com/pingcap/docs/master/scripts/check-control-char.py
       python3 check-control-char.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
@@ -58,7 +58,7 @@ tasks:
   - name: "Check unclosed tags"
     taskType: common
     shellScript: |
-      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git remote add upstream https://github.com/pingcap/docs.git
       git fetch upstream
       wget https://raw.githubusercontent.com/pingcap/docs/master/scripts/check-tags.py
       python3 check-tags.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
@@ -68,18 +68,10 @@ tasks:
   - name: "Check manual line breaks"
     taskType: common
     shellScript: |
-      git remote add upstream https://github.com/pingcap/docs-cn.git
+      git remote add upstream https://github.com/pingcap/docs.git
       git fetch upstream
       wget https://raw.githubusercontent.com/pingcap/docs/master/scripts/check-manual-line-breaks.py
       python3 check-manual-line-breaks.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
-    buildEnv:
-      image: node:lts
-
-  - name: zhmd lint
-    taskType: common
-    shellScript: |
-      npm install -g preset-lint-zh
-      zhmd -c .zhlint.yaml
     buildEnv:
       image: node:lts
 
