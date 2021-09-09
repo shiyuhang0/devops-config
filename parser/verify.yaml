@@ -13,6 +13,9 @@ tasks:
   - name: parser-integration-test 
     taskType: common
     shellScript: |
+      pwd && ls -alh
+      echo $ws
+      
       git clone --depth=1 https://github.com/pingcap/tidb.git
       cd tidb
       rm go.sum
