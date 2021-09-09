@@ -37,20 +37,14 @@ tasks:
   - name: Check internal links
     taskType: common
     shellScript: |
-      wget https://raw.githubusercontent.com/pingcap/docs-cn/ciScripts/scripts/verify-links.sh
-      chmod +x verify-links.sh
-      ls -a
-      ./verify-links.sh
+      ./scripts/verify-links.sh
     buildEnv:
       image: node:lts
 
   - name: Check internal link anchorss
     taskType: common
     shellScript: |
-      wget https://raw.githubusercontent.com/pingcap/docs-cn/ciScripts/scripts/verify-link-anchors.sh
-      chmod +x verify-link-anchors.sh
-      ls -a
-      ./verify-link-anchors.sh
+      ./scripts/verify-link-anchors.sh
     buildEnv:
       image: node:lts
 
