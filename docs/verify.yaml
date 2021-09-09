@@ -1,0 +1,72 @@
+version: 1
+
+tasks:
+  - name: check file encoding
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs.git
+      git fetch upstream
+      python3 scripts/check-file-encoding.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
+    buildEnv:
+      image: node:lts
+
+  - name: check git conflicts
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs.git
+      git fetch upstream
+      python3 scripts/check-conflicts.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' '*.yml' '*.yaml')
+    buildEnv:
+      image: node:lts
+
+  - name: Lint edited files
+    taskType: common
+    shellScript: |
+      npm install -g markdownlint-cli@0.17.0
+      git remote add upstream https://github.com/pingcap/docs.git
+      git fetch upstream
+      markdownlint $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
+    buildEnv:
+      image: node:lts
+
+  - name: Check internal links
+    taskType: common
+    shellScript: |
+      ./scripts/verify-links.sh
+    buildEnv:
+      image: node:lts
+
+  - name: Check internal link anchorss
+    taskType: common
+    shellScript: |
+      ./scripts/verify-link-anchors.sh
+    buildEnv:
+      image: node:lts
+
+  - name: "Check control characters"
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs.git
+      git fetch upstream\
+      python3 scripts/check-control-char.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
+    buildEnv:
+      image: node:lts
+
+  - name: "Check unclosed tags"
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs.git
+      git fetch upstream
+      python3 scripts/check-tags.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
+    buildEnv:
+      image: node:lts
+
+  - name: "Check manual line breaks"
+    taskType: common
+    shellScript: |
+      git remote add upstream https://github.com/pingcap/docs.git
+      git fetch upstream
+      python3 scripts/check-manual-line-breaks.py $(git diff-tree --name-only --no-commit-id -r upstream/${TARGET_BRANCH}..HEAD -- '*.md' ':(exclude).github/*')
+    buildEnv:
+      image: node:lts
+
