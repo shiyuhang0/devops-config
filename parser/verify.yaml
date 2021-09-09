@@ -35,8 +35,15 @@ tasks:
   - name: parser-ut
     taskType: unit-test
     shellScript: |
-      make test
-      
+      for f in $(git grep -l 'github.com/pingcap/check' | grep '/' | cut -d/ -f1 | uniq)
+      do
+        if ! grep -r TestingT "$f" > /dev/null
+        then
+          echo "check.TestingT missing from $f"
+          exit 1
+        fi
+      done
+
       GO111MODULE=off go get github.com/axw/gocov/gocov
       GO111MODULE=off go get github.com/jstemmer/go-junit-report
       GO111MODULE=off go get github.com/AlekSi/gocov-xml
