@@ -75,11 +75,11 @@ tasks:
     buildEnv:
       image: node:lts
 
-  - name: zhmd lint
-    taskType: common
-    shellScript: |
-      npm install -g preset-lint-zh
-      zhmd -c .zhlint.yaml
-    buildEnv:
-      image: node:lts
+#  - name: zhmd lint
+#    taskType: common
+#    shellScript: |
+#      npm install -g preset-lint-zh
+#      zhmd -c .zhlint.yaml
+#    buildEnv:
+#      image: node:lts
 
