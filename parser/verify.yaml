@@ -1,0 +1,45 @@
+version: 1
+
+tasks:
+  - name: parser-generated
+    taskType: common
+    shellScript: |
+      mv parser.go parser.go.committed
+      make parser
+      diff -u parser.go.committed parser.go
+    buildEnv:
+      image: golang:1.16
+
+  - name: parser-format
+    taskType: common
+    shellScript: |
+      make fmt
+    buildEnv:
+      image: golang:1.16
+
+  - name: parser-ut
+    taskType: unit-test
+    shellScript: |
+      for f in $(git grep -l 'github.com/pingcap/check' | grep '/' | cut -d/ -f1 | uniq)
+      do
+        if ! grep -r TestingT "$f" > /dev/null
+        then
+          echo "check.TestingT missing from $f"
+          exit 1
+        fi
+      done
+
+      GO111MODULE=on go test -v -p 1 -race -covermode=atomic -coverprofile=cover.out -coverpkg=./... ./... | go-junit-report > test.xml
+      gocov convert cover.out | gocov-xml > coverage.xml
+
+    utReportDir: test.xml
+    covReportDir: coverage.xml
+    coverageRate: 80
+    buildEnv:
+      image: golang:1.16
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
