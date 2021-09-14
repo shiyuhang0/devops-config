@@ -1,40 +1,13 @@
 version: 1
 
 tasks:
-  - name: tidb-build
-    taskType: build
+  - name: tidb-cyclo
+    taskType: cyclo
     shellScript: |
-      make
-    outputDir: bin
-    timeout: 10
-    buildEnv:
-      image: golang:1.16
-      request:
-        cpu: 4
-        mem: 8Gi
-      limit:
-        cpu: 4
-        mem: 8Gi
+      gocyclo -over 20 -avg ./ 
 
-  - name: tidb-ut
-    taskType: unit-test
+  - name: tidb-gosec
+    taskType: gosec
     shellScript: |
-      expoort GOPATH = xxx
-      go test -v -cov 
-    utReportDir: ut/*.xml
-    covReportDir: cov/*.xml
-    coverageRate: 50
-    buildEnv:
-      image: golang:1.16
-      request:
-        cpu: 4
-        mem: 8Gi
-      limit:
-        cpu: 4
-        mem: 8Gi
-
-  - name: tidb-lint
-    taskType: lint
-    shellScript: |
-      golangci-lint run  --out-format=junit-xml  --timeout=10m -v ./... > golangci-lint-report.xml
-    reportDir: golangci-lint-report.xml
+      gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G307,G401,G404,G501,G505,G601 ./...
+    reportDir: results.xml
