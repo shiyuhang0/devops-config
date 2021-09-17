@@ -1,0 +1,11 @@
+version: 1
+
+tasks:
+  - name: build pdf
+    taskType: common
+    shellScript: |
+      grep -RP '\t' *  | tee | grep '.md' && exit 1; echo ok
+      python3 scripts/merge_by_toc.py
+      scripts/generate_pdf.sh
+    buildEnv:
+      image: node:lts
