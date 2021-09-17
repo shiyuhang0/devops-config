@@ -7,5 +7,8 @@ tasks:
       grep -RP '\t' *  | tee | grep '.md' && exit 1; echo ok
       python3 scripts/merge_by_toc.py
       scripts/generate_pdf.sh
+    secretEnv: 
+    - secretID: sre-bot-token
+      key: TOKEN
     buildEnv:
       image: node:lts
