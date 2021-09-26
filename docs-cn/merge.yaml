@@ -10,7 +10,23 @@ tasks:
       python3 scripts/merge_by_toc.py
       scripts/generate_pdf.sh
       sudo bash -c 'echo "222.222.95.49 uc.qbox.me" >> /etc/hosts';
-      python3 scripts/upload.py output.pdf tidb-dev-zh-manual.pdf;
+      if [ "${TARGET_BRANCH}" == "master" ]; then
+        python3 scripts/upload.py output.pdf tidb-dev-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-5.2" ]; then
+        python3 scripts/upload.py output.pdf tidb-stable-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-5.1" ]; then
+        python3 scripts/upload.py output.pdf tidb-v5.1-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-5.0" ]; then
+        python3 scripts/upload.py output.pdf tidb-v5.0-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-4.0" ]; then
+        python3 scripts/upload.py output.pdf tidb-v4.0-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-3.1" ]; then
+        python3 scripts/upload.py output.pdf tidb-v3.1-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-3.0" ]; then
+        python3 scripts/upload.py output.pdf tidb-v3.0-zh-manual.pdf;
+      elif [ "${TARGET_BRANCH}" == "release-2.1" ]; then
+        python3 scripts/upload.py output.pdf tidb-v2.1-zh-manual.pdf;
+      fi
     secretVar:
       - secretID: docs-cn-aws-ak
         key: AWS_ACCESS_KEY
