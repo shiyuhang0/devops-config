@@ -1,11 +1,13 @@
 version: 1
 
 tasks:
-  lint:
+  - name: lint
+    taskType: unit-test
     shellScript: |
       make lint
 
-  build:
+  - name: build
+    taskType: build
     shellScript: |
       make
     outputDir: /tmp/
@@ -19,7 +21,8 @@ tasks:
         cpu: 4
         mem: 8Gi
 
-  unitTest:
+  - name: unit-test
+    taskType: unit-test
     shellScript: |
       make unit_test
     buildEnv:
