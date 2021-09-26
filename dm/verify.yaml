@@ -24,7 +24,7 @@ tasks:
   - name: unit-test
     taskType: unit-test
     shellScript: |
-      make_unit_test_in_verfiy_ci
+      make unit_test_in_verfiy_ci
     buildEnv:
       image: golang:1.16
       request:
