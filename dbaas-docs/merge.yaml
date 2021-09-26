@@ -1,0 +1,33 @@
+version: 1
+
+tasks:
+  - name: build pdf
+    taskType: common
+    shellScript: |
+      sudo pip3 install boto3
+      sudo pip3 install awscli
+      printf "%s\n" ${AWS_ACCESS_KEY} ${AWS_SECRET_KEY} ${AWS_REGION} "json" | aws configure
+      grep -RP '\t' *  | tee | grep '.md' && exit 1; echo ok
+      python3 scripts/merge_by_toc.py;
+      scripts/generate_pdf.sh
+      sudo bash -c 'echo "222.222.95.49 uc.qbox.me" >> /etc/hosts';
+      if [ "${TARGET_BRANCH}" = "master" ]; then
+        python3 scripts/upload.py output.pdf tidbcloud-public-preview-en-manual.pdf;
+      fi
+    secretVar:
+      - secretID: docs-cn-aws-ak
+        key: AWS_ACCESS_KEY
+      - secretID: docs-cn-aws-sk
+        key: AWS_SECRET_KEY
+      - secretID: docs-cn-aws-region
+        key: AWS_REGION
+      - secretID: docs-cn-aws-bn
+        key: AWS_BUCKET_NAME
+      - secretID: docs-cn-qiniu-ak
+        key: QINIU_ACCESS_KEY
+      - secretID: docs-cn-qiniu-sk
+        key: QINIU_SECRET_KEY
+      - secretID: docs-cn-qiniu-bn
+        key: QINIU_BUCKET_NAME
+    buildEnv:
+      image: hub.pingcap.net/jenkins/docs-cn-checker:v0.0.1
