@@ -2,7 +2,7 @@ version: 1
 
 tasks:
   - name: lint
-    taskType: unit-test
+    taskType: lint
     shellScript: |
       make lint
 
