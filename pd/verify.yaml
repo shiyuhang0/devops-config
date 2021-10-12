@@ -9,5 +9,5 @@ tasks:
   - name: pd-gosec
     taskType: gosec
     shellScript: |
-      gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G307,G401,G404,G501,G505,G601 ./... || true
+      gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G304,G307,G401,G404,G501,G505,G601 ./... || true
     reportDir: results.xml
