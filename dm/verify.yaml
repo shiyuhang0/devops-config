@@ -13,7 +13,7 @@ tasks:
     outputDir: /tmp/
     timeout: 5
     buildEnv:
-      image: golang:1.16
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
       request:
         cpu: 4
         mem: 8Gi
@@ -26,7 +26,7 @@ tasks:
     shellScript: |
       make unit_test_in_verify_ci
     buildEnv:
-      image: golang:1.16
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
       request:
         cpu: 4
         mem: 8Gi
