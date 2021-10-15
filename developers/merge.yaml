@@ -8,11 +8,12 @@ tasks:
       sudo pip3 install awscli
       printf "%s\n" ${AWS_ACCESS_KEY} ${AWS_SECRET_KEY} ${AWS_REGION} "json" | aws configure
       grep -RP '\t' *  | tee | grep '.md' && exit 1; echo ok
-      python3 scripts/merge_by_toc.py zh/;
+      python3 scripts/merge_by_toc.py zh/; python3 scripts/merge_by_toc.py en/
       scripts/generate_pdf.sh
       sudo bash -c 'echo "222.222.95.49 uc.qbox.me" >> /etc/hosts';
       if [ "${TARGET_BRANCH}" = "master" ]; then
-        python3 scripts/upload.py output_zh.pdf dev-guide-dev-zh-manual.pdf;
+        python3 scripts/upload.py output_en.pdf developers-dev-en-manual.pdf;
+        python3 scripts/upload.py output_zh.pdf developers-dev-zh-manual.pdf;
       fi
     secretVar:
       - secretID: docs-cn-aws-ak
