@@ -1,5 +1,4 @@
 version: 1
-repo: pingcap/tidb
 defaultRefs: [master,release-5.0,release-5.1,release-5.2]
 
 tasks:
