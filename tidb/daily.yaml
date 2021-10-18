@@ -1,0 +1,15 @@
+version: 1
+repo: pingcap/tidb
+defaultRefs: [master,release-5.0,release-5.1,release-5.2]
+
+tasks:
+  - name: tidb-cyclo
+    taskType: cyclo
+    shellScript: |
+      gocyclo -over 20 -avg ./ 
+
+  - name: tidb-gosec
+    taskType: gosec
+    shellScript: |
+      gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G304,G307,G401,G404,G501,G505,G601 ./...
+    reportDir: results.xml
