@@ -12,8 +12,8 @@ tasks:
       scripts/generate_pdf.sh
       sudo bash -c 'echo "222.222.95.49 uc.qbox.me" >> /etc/hosts';
       if [ "${TARGET_BRANCH}" = "master" ]; then
-        python3 scripts/upload.py output_en.pdf developers-dev-en-manual.pdf;
-        python3 scripts/upload.py output_zh.pdf developers-dev-zh-manual.pdf;
+        python3 scripts/upload.py output_en.pdf appdev-dev-en-manual.pdf;
+        python3 scripts/upload.py output_zh.pdf appdev-dev-zh-manual.pdf;
       fi
     secretVar:
       - secretID: docs-cn-aws-ak
