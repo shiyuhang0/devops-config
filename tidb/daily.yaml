@@ -32,6 +32,9 @@ tasks:
     taskType: unit-test
     shellScript: |
       export log_level=debug
+      cd tools/check
+      go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
+      cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
       GO111MODULE=on go test -p 8 -timeout 20m -race -coverprofile=cov.out ./... | go-junit-report > test.xml
       gocov convert cov.out | gocov-xml > coverage.xml
@@ -44,6 +47,9 @@ tasks:
     taskType: unit-test
     shellScript: |
       export log_level=debug
+      cd tools/check
+      go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
+      cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
       GO111MODULE=on go test -p 8 -tags leak -coverprofile=cov.out ./... | go-junit-report > test.xml
       gocov convert cov.out | gocov-xml > coverage.xml
