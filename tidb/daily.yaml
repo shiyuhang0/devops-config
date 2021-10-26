@@ -29,16 +29,24 @@ tasks:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
 
   - name: tidb-race
-    taskType: common
+    taskType: unit-test
     shellScript: |
-      make race
+      find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
+      GO111MODULE=on go test -p 8 -timeout 20m -race -coverprofile=cov.out ./... | go-junit-report > test.xml
+      gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+    utReportDir: test.xml
+    covReportDir: coverage.xml
 
   - name: tidb-leak
-    taskType: common
+    taskType: unit-test
     shellScript: |
-      make leak
+      find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
+      GO111MODULE=on go test -p 8 -tags leak -coverprofile=cov.out ./... | go-junit-report > test.xml
+      gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+    utReportDir: test.xml
+    covReportDir: coverage.xml
   
