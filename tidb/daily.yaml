@@ -21,12 +21,20 @@ tasks:
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
 
-  - name: tidb-test
-    taskType: common
+  - name: tidb-ut
+    taskType: unit-test
     shellScript: |
-      make test
+      export log_level=debug
+      cd tools/check
+      go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
+      cd ../..
+      find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
+      GO111MODULE=on go test -v -p 8 -coverprofile=cov.out ./... | go-junit-report > test.xml
+      gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+    utReportDir: test.xml
+    covReportDir: coverage.xml
 
   - name: tidb-race
     taskType: unit-test
@@ -36,7 +44,7 @@ tasks:
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
       cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      GO111MODULE=on go test -p 8 -timeout 20m -race -coverprofile=cov.out ./... | go-junit-report > test.xml
+      GO111MODULE=on go test -v -p 8 -timeout 20m -race -coverprofile=cov.out ./... | go-junit-report > test.xml
       gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
@@ -51,7 +59,7 @@ tasks:
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
       cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      GO111MODULE=on go test -p 8 -tags leak -coverprofile=cov.out ./... | go-junit-report > test.xml
+      GO111MODULE=on go test -v -p 8 -tags leak -coverprofile=cov.out ./... | go-junit-report > test.xml
       gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
