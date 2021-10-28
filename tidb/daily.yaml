@@ -24,7 +24,8 @@ tasks:
   - name: tidb-ut
     taskType: unit-test
     shellScript: |
-      go install gotest.tools/gotestsum
+      go env
+      GO111MODULE=on go install gotest.tools/gotestsum
       export log_level=debug
       cd tools/check
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
@@ -40,7 +41,8 @@ tasks:
   - name: tidb-race
     taskType: unit-test
     shellScript: |
-      go install gotest.tools/gotestsum
+      go env
+      GO111MODULE=on go install gotest.tools/gotestsum
       export log_level=debug
       cd tools/check
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
@@ -56,7 +58,8 @@ tasks:
   - name: tidb-leak
     taskType: unit-test
     shellScript: |
-      go install gotest.tools/gotestsum
+      go env
+      GO111MODULE=on go install gotest.tools/gotestsum
       export log_level=debug
       cd tools/check
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
