@@ -1,0 +1,52 @@
+version: 1
+
+tasks:
+  - name: lint
+    taskType: lint
+    shellScript: |
+      make check
+      
+  - name: build
+    taskType: build
+    shellScript: |
+      make build
+    outputDir: /tmp/
+    timeout: 5
+    buildEnv:
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
+
+  - name: dm-unit-test
+    taskType: unit-test
+    shellScript: |
+      make dm_unit_test_in_verify_ci
+    buildEnv:
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
+    utReportDir: dm-junit-report.xml
+    covReportDir: dm-coverage.xml
+
+  - name: cdc-unit-test
+    taskType: unit-test
+    shellScript: |
+      make unit_test_in_verify_ci
+    buildEnv:
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+      request:
+        cpu: 4
+        mem: 8Gi
+      limit:
+        cpu: 4
+        mem: 8Gi
+    utReportDir: cdc-junit-report.xml
+    covReportDir: cdc-coverage.xml
