@@ -1,5 +1,5 @@
 version: 1
-defaultRefs: [master,release-5.0,release-5.1,release-5.2]
+defaultRefs: [master]
 
 tasks:
   - name: tidb-cyclo
@@ -24,12 +24,13 @@ tasks:
   - name: tidb-ut
     taskType: unit-test
     shellScript: |
+      go get -u gotest.tools/gotestsum
       export log_level=debug
       cd tools/check
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
       cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      GO111MODULE=on go test -v -p 8 -coverprofile=cov.out ./... | go-junit-report > test.xml
+      gotestsum --junitfile test.xml  --packages="./..." -- -p 8 -coverprofile=cov.out
       gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
@@ -39,12 +40,13 @@ tasks:
   - name: tidb-race
     taskType: unit-test
     shellScript: |
+      go get -u gotest.tools/gotestsum
       export log_level=debug
       cd tools/check
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
       cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      GO111MODULE=on go test -v -p 8 -timeout 20m -race -coverprofile=cov.out ./... | go-junit-report > test.xml
+      gotestsum --junitfile test.xml  --packages="./..." -- -p 8 -race -timeout 20m -coverprofile=cov.out
       gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
@@ -54,12 +56,13 @@ tasks:
   - name: tidb-leak
     taskType: unit-test
     shellScript: |
+      go get -u gotest.tools/gotestsum
       export log_level=debug
       cd tools/check
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
       cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      GO111MODULE=on go test -v -p 8 -tags leak -coverprofile=cov.out ./... | go-junit-report > test.xml
+      gotestsum --junitfile test.xml  --packages="./..." -- -p 8 -tags leak -coverprofile=cov.out
       gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
