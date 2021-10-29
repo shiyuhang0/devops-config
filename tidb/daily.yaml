@@ -50,7 +50,7 @@ tasks:
       go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
       cd ../..
       find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      gotestsum --junitfile test.xml  --packages="$(go list ./... | grep -v github.com/pingcap/tidb/cmd)" -- -p 8 -race -timeout 20m -coverprofile=cov.out
+      gotestsum -f standard-verbose --junitfile test.xml  --packages="$(go list ./... | grep -v github.com/pingcap/tidb/cmd)" -- -p 8 -race -timeout 20m -coverprofile=cov.out
       gocov convert cov.out | gocov-xml > coverage.xml
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
