@@ -4,7 +4,7 @@ run:
 
 linters:
   enable:
-      - misspell
+      #- misspell
       - ineffassign
       - typecheck
       - varcheck
@@ -12,10 +12,12 @@ linters:
       - structcheck
       - deadcode
       - gosimple
-      - goimports
+      #- goimports
       - staticcheck
-      - stylecheck
-      - gosec
+      #- stylecheck
+      #- gosec
+  disable:
+      - errcheck
 
 linters-settings:
 
