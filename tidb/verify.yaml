@@ -4,7 +4,7 @@ tasks:
   - name: tidb-cyclo
     taskType: cyclo
     shellScript: |
-      gocyclo -over 20 -avg ./ || true
+      gocyclo -over 20 -avg ./ | tee repo_cyclo.log || true
 
   - name: tidb-gosec
     taskType: gosec

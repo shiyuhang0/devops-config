@@ -41,7 +41,7 @@ tasks:
   - name: tiem-cyclo
     taskType: cyclo
     shellScript: |
-      gocyclo -over 20 -avg ./ || true
+      gocyclo -over 20 -avg ./ | tee repo_cyclo.log || true
 
   - name: tiem-gosec
     taskType: gosec
