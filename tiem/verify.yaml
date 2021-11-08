@@ -4,7 +4,7 @@ tasks:
   - name: tiem-build
     taskType: build
     shellScript: |
-      make build
+      make
     outputDir: bin
     timeout: 10
     buildEnv:
@@ -19,7 +19,7 @@ tasks:
   - name: tiem-ut
     taskType: unit-test
     shellScript: |
-      make test
+      make ci_test
     utReportDir: test.xml
     covReportDir: coverage.xml
     coverageRate: 66
