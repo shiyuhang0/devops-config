@@ -35,7 +35,7 @@ tasks:
   - name: tiem-lint
     taskType: lint
     shellScript: |
-      make lint
+      make && make lint
     reportDir: golangci-lint-report.xml
 
   - name: tiem-cyclo
