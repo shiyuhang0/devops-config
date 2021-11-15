@@ -22,7 +22,7 @@ tasks:
       make ci_test
     utReportDir: test.xml
     covReportDir: coverage.xml
-    coverageRate: 69
+    coverageRate: 71
     buildEnv:
       image: golang:1.16
       request:
