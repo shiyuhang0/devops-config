@@ -5,7 +5,7 @@ tasks:
     taskType: lint
     shellScript: |
       make check
-      
+
   - name: build
     taskType: build
     shellScript: |
@@ -31,8 +31,8 @@ tasks:
         cpu: 4
         mem: 8Gi
       limit:
-        cpu: 4
-        mem: 8Gi
+        cpu: 16
+        mem: 30Gi
     utReportDir: dm-junit-report.xml
     covReportDir: dm-coverage.xml
 
@@ -46,7 +46,7 @@ tasks:
         cpu: 4
         mem: 8Gi
       limit:
-        cpu: 4
-        mem: 8Gi
+        cpu: 16
+        mem: 30Gi
     utReportDir: cdc-junit-report.xml
     covReportDir: cdc-coverage.xml
