@@ -82,3 +82,6 @@ tasks:
       golangci-lint run --out-format=junit-xml -v ./... > golangci-lint-report.xml
     reportDir: golangci-lint-report.xml
   
+notify:
+  lark: []
+  email: [lifu.wu@pingcap.com]
