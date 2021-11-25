@@ -36,10 +36,10 @@ tasks:
     utReportDir: dm-junit-report.xml
     covReportDir: dm-coverage.xml
     secretVar:
-      - secretID: codecov-token-dm
-        key: DM_CODECOV_TOKEN
-      - secretID: coveralls-token-dm
-        key: DM_COVERALLS_TOKEN
+      - secretID: codecov-token-ticdc
+        key: TICDC_CODECOV_TOKEN
+      - secretID: coveralls-token-ticdc
+        key: TICDC_COVERALLS_TOKEN
 
   - name: cdc-unit-test
     taskType: unit-test
