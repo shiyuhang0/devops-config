@@ -81,6 +81,19 @@ tasks:
     shellScript: |
       golangci-lint run --out-format=junit-xml -v ./... > golangci-lint-report.xml
     reportDir: golangci-lint-report.xml
+
+  - name: tidb-race-log
+    taskType: unit-test
+    shellScript: |
+      cd tools/check
+      go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
+      cd ../..
+      find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
+      go test -timeout 20m -race $(go list ./... | grep -v github.com/pingcap/tidb/cmd)
+    buildEnv:
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
+    utReportDir: test.xml
+    covReportDir: coverage.xml
   
 notify:
   lark: []
