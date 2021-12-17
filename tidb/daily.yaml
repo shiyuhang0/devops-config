@@ -94,6 +94,39 @@ tasks:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
     utReportDir: test.xml
     covReportDir: coverage.xml
+
+  - name: tidb_ghpr_common_test
+    taskType: jenkins-it-trigger
+  
+  - name: tidb_ghpr_integration_common_test
+    taskType: jenkins-it-trigger
+
+  - name: tidb_ghpr_integration_campatibility_test
+    taskType: jenkins-it-trigger
+  
+  - name: tidb_ghpr_integration_copr_test
+    taskType: jenkins-it-trigger
+
+  - name: tidb_ghpr_integration_ddl_test
+    taskType: jenkins-it-trigger
+
+  - name: tidb_ghpr_mybatis
+    taskType: jenkins-it-trigger
+
+  - name: tidb_ghpr_sqllogic_test_1
+    taskType: jenkins-it-trigger
+  
+  - name: tidb_ghpr_sqllogic_test_2
+    taskType: jenkins-it-trigger
+
+  - name: tidb_ghpr_tics_test
+    taskType: jenkins-it-trigger
+  
+  - name: tidb_ghpr_integration_cdc_test
+    taskType: jenkins-it-trigger
+
+  - name: tidb_ghpr_integration_br_test
+    taskType: jenkins-it-trigger
   
 notify:
   lark: []
