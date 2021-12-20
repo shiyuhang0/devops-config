@@ -9,7 +9,7 @@ tasks:
     outputDir: bin
     timeout: 10
     buildEnv:
-      image: golang:1.16
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
       request:
         cpu: 4
         mem: 8Gi
@@ -25,7 +25,7 @@ tasks:
     covReportDir: coverage.xml
     coverageRate: 74
     buildEnv:
-      image: golang:1.16
+      image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
       request:
         cpu: 4
         mem: 8Gi
