@@ -95,6 +95,10 @@ tasks:
     utReportDir: test.xml
     covReportDir: coverage.xml
 
+  - name: tidb-tcms
+    taskType: atom-tcms
+    testReportDir: test_report
+
   - name: tidb_ghpr_common_test
     taskType: jenkins-it-trigger
   
