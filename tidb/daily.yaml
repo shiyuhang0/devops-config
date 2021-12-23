@@ -133,5 +133,5 @@ tasks:
     taskType: jenkins-it-trigger
   
 notify:
-  lark: []
-  email: [lifu.wu@pingcap.com]
+  lark: [purelind]
+  email: [lifu.wu@pingcap.com, zhouqiang@pingcap.com, brian.niu@pingcap.com, wangcong@pingcap.com, shuke@pingcap.com]
