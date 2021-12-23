@@ -95,10 +95,6 @@ tasks:
     utReportDir: test.xml
     covReportDir: coverage.xml
 
-  - name: tidb-tcms
-    taskType: atom-tcms
-    testReportDir: test_report
-
   - name: tidb_ghpr_common_test
     taskType: jenkins-it-trigger
   
@@ -133,5 +129,5 @@ tasks:
     taskType: jenkins-it-trigger
   
 notify:
-  lark: []
-  email: [lifu.wu@pingcap.com]
+  lark: [purelind, dianqihanwangzi, n0vad3v]
+  email: [lifu.wu@pingcap.com, zhouqiang@pingcap.com, brian.niu@pingcap.com, wangcong@pingcap.com, shuke@pingcap.com, alex.quan@pingcap.com]
