@@ -30,7 +30,7 @@ tasks:
   - name: tispark-build
     taskType: build
     shellScript: |
-      mvn clean package -Dmaven.test.skip=true -B1
+      mvn clean package -Dmaven.test.skip=true -B
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.13_java:latest
       request:
