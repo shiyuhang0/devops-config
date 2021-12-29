@@ -2,7 +2,7 @@ version: 1
 
 tasks:
   - name: tispark-fmt
-    taskType: lint
+    taskType: common
     shellScript: |
       export LC_ALL=en_US.UTF-8
       export LANG=en_US.UTF-8
@@ -28,7 +28,7 @@ tasks:
         mem: 4Gi
 
   - name: tispark-build
-    taskType: build
+    taskType: common
     shellScript: |
       mvn clean package -Dmaven.test.skip=true -B
     buildEnv:
@@ -41,7 +41,7 @@ tasks:
         mem: 4Gi
 
   - name: tispark-ut
-    taskType: unit-test
+    taskType: common
     shellScript: |
       mvn test -am -pl tikv-client -DsomeModule.test.excludes="**/txn/*" -B
     buildEnv:
