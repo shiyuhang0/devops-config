@@ -22,23 +22,26 @@ tasks:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
 
   - name: tidb-ut
-    taskType: unit-test
+    taskType: atom-ut-codecov
     shellScript: |
-      cd ..
-      go get -u gotest.tools/gotestsum
-      cd -
-      export log_level=debug
-      cd tools/check
-      go build -o ../bin/failpoint-ctl github.com/pingcap/failpoint/failpoint-ctl
-      cd ../..
-      find $$PWD/ -type d | grep -vE "(\.git|tools)" | xargs tools/bin/failpoint-ctl enable
-      gotestsum --junitfile test.xml  --packages="$(go list ./... | grep -v github.com/pingcap/tidb/cmd)" -- -p 8 -timeout 25m -coverprofile=cov.out | grep -A 10 -B 10 "\-\-\- Fail" || true
-      gocov convert cov.out | gocov-xml > coverage.xml
+      export log_level=warn
+      mkdir -p coverage_report
+      make br_unit_test_in_verify_ci || true
+      mv test_coverage/br_cov.unit_test.out coverage_report/br.coverage
+      make dumpling_unit_test_in_verify_ci || true
+      mv test_coverage/dumpling_cov.unit_test.out coverage_report/dumpling.coverage
+      make gotest_in_verify_ci || true
+      mv test_coverage/tidb_cov.unit_test.out coverage_report/tidb.coverage
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
-    utReportDir: test.xml
-    covReportDir: coverage.xml
+    utReport: test_coverage/*.xml
+    covReport: coverage_report/*.coverage
     coverageRate: 50
+    secretVar:
+      - secretID: codecov-token-tidb
+        key: CODECOV_TOKEN
+      - secretID: codecov-api-token
+        key: CODECOV_API_TOKEN
 
   - name: tidb-race
     taskType: unit-test
