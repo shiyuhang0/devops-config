@@ -23,7 +23,7 @@ tasks:
       make ci_test
     utReportDir: test.xml
     covReportDir: coverage.xml
-    coverageRate: 78
+    coverageRate: 80
     buildEnv:
       image: hub.pingcap.net/jenkins/centos7_golang-1.16:latest
       request:
