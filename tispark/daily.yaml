@@ -1,4 +1,5 @@
 version: 1
+defaultRef: master
 
 # where to add cron
 tasks:
