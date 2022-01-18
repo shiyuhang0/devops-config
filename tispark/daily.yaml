@@ -42,8 +42,7 @@ tasks:
         cpu: 2
         mem: 4Gi
 
-# need change
-  - name: tispark_ghpr_common_test
+  - name: daily-trigger-tispark-ingegration-test
     taskType: jenkins-it-trigger
 
 notify:
