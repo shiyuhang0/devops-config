@@ -1,0 +1,66 @@
+pipelineName: parser-verify-pipeline 
+repo: pingcap/parser
+defaultRef: master 
+triggers:
+  pullRequest:
+      onBranch:
+      - "master"
+      - "release-*"
+      onComment:
+      - "/verify"
+tasks:
+    - taskName: parser-generated
+      checkerName: "common-check" 
+      params:  
+        shellScript: |
+            mv parser.go parser.go.committed
+            make parser
+            diff -u parser.go.committed parser.go
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+
+    - taskName: parser-format
+      checkerName: "common-check" 
+      params:  
+        shellScript: |
+            make fmt
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+
+    - taskName: parser-ut
+      checkerName: "ut-check" 
+      params:  
+        shellScript: |
+            for f in $(git grep -l 'github.com/pingcap/check' | grep '/' | cut -d/ -f1 | uniq)
+            do
+                if ! grep -r TestingT "$f" > /dev/null
+                then
+                echo "check.TestingT missing from $f"
+                exit 1
+                fi
+            done
+
+            GO111MODULE=on go test -v -p 1 -race -covermode=atomic -coverprofile=cover.out -coverpkg=./... ./... | go-junit-report > test.xml
+            gocov convert cover.out | gocov-xml > coverage.xml
+        utReportDir: test.xml
+        covReportDir: coverage.xml
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "8000Mi"
+              cpu: "4000m"
+          limits:
+              memory: "8000Mi"
+              cpu: "4000m"

@@ -1,0 +1,86 @@
+pipelineName: tiem-verify-pipeline 
+repo: pingcap-inc/tiem
+defaultRef: master 
+triggers:
+  pullRequest:
+      onBranch:
+      - "master"
+      - "release-*"
+      onComment:
+      - "/verify"
+tasks:
+    - taskName: "tiem-lint" 
+      checkerName: "lint-check" 
+      params:  
+        shellScript: |
+            make && make lint
+        reportDir: golangci-lint-report.xml
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+
+    - taskName: "tiem-build" 
+      checkerName: "build-check" 
+      params:  
+        shellScript: |
+            make
+        outputDir : "bin/"
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "8000Mi"
+              cpu: "4000m"
+          limits:
+              memory: "8000Mi"
+              cpu: "4000m"
+
+    - taskName: "tiem-ut" 
+      checkerName: "ut-check" 
+      params:  
+        shellScript: |
+            make ci_test
+        utReportDir: test.xml
+        covReportDir: coverage.xml
+        coverageRate: 80
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "8000Mi"
+              cpu: "4000m"
+          limits:
+              memory: "8000Mi"
+              cpu: "4000m"
+
+    - taskName: "tiem-cyclo" 
+      checkerName: "cyclo-check" 
+      params:  
+        shellScript: |
+            gocyclo -over 20 -avg ./ | tee repo_cyclo.log || true
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "2000Mi"
+              cpu: "1000m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+
+    - taskName: "tiem-gosec" 
+      checkerName: "gosec-check" 
+      params:  
+        shellScript: |
+            gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G304,G307,G401,G404,G501,G505,G601 ./... || true
+        reportDir: results.xml
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "2000Mi"
+              cpu: "1000m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
