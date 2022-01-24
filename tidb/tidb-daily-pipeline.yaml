@@ -149,8 +149,8 @@ tasks:
               memory: "4000Mi"
               cpu: "2000m"
           limits:
-              memory: "4000Mi"
-              cpu: "2000m"
+              memory: "20000Mi"
+              cpu: "20000m"
 
     - taskName: "tidb-race-log" 
       checkerName: "ut-check" 
