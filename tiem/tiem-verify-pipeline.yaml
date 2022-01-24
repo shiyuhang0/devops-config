@@ -21,8 +21,8 @@ tasks:
               memory: "1000Mi"
               cpu: "500m"
           limits:
-              memory: "2000Mi"
-              cpu: "1000m"
+              memory: "20000Mi"
+              cpu: "20000m"
 
     - taskName: "tiem-build" 
       checkerName: "build-check" 
