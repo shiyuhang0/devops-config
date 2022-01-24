@@ -54,8 +54,8 @@ tasks:
 
             GO111MODULE=on go test -v -p 1 -race -covermode=atomic -coverprofile=cover.out -coverpkg=./... ./... | go-junit-report > test.xml
             gocov convert cover.out | gocov-xml > coverage.xml
-        utReportDir: test.xml
-        covReportDir: coverage.xml
+        utReport: test.xml
+        covReport: coverage.xml
       image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
       resources:  
           requests:

@@ -43,8 +43,8 @@ tasks:
       params:  
         shellScript: |
             make unit_test_in_verify_ci
-        utReportDir: test.xml
-        covReportDir: coverage.xml
+        utReport: test.xml
+        covReport: coverage.xml
       image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
       resources:  
           requests:
