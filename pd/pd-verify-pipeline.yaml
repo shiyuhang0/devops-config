@@ -1,0 +1,40 @@
+pipelineName: pd-verify-pipeline 
+repo: pingcap/pd
+defaultRef: master 
+triggers:
+  pullRequest:
+      onBranch:
+      - "master"
+      - "release-*"
+      onComment:
+      - "/verify"
+tasks:
+    - taskName: "pd-cyclo" 
+      checkerName: "cyclo-check" 
+      params:  
+        shellScript: |
+            gocyclo -over 20 -avg ./ | tee repo_cyclo.log || true
+      timeout: 10 
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+
+    - taskName: "pd-gosec" 
+      checkerName: "gosec-check" 
+      params:  
+        shellScript: |
+            gosec -fmt=junit-xml -out=results.xml -stdout -verbose=text -exclude=G103,G104,G204,G304,G307,G401,G404,G501,G505,G601 ./... || true
+      timeout: 30
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"

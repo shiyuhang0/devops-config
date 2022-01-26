@@ -1,0 +1,55 @@
+pipelineName: dm-verify-pipeline 
+repo: pingcap/dm
+defaultRef: master 
+triggers:
+  pullRequest:
+      onBranch:
+      - "master"
+      - "release-*"
+      onComment:
+      - "/verify"
+tasks:
+    - taskName: "dm-lint" 
+      checkerName: "lint-check" 
+      params:  
+        shellScript: |
+            make lint
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "1000Mi"
+              cpu: "500m"
+          limits:
+              memory: "2000Mi"
+              cpu: "1000m"
+
+    - taskName: "dm-build" 
+      checkerName: "build-check" 
+      params:  
+        shellScript: |
+            make
+        outputDir : "bin/"
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "8000Mi"
+              cpu: "4000m"
+          limits:
+              memory: "8000Mi"
+              cpu: "4000m"
+
+    - taskName: "dm-ut" 
+      checkerName: "ut-check" 
+      params:  
+        shellScript: |
+            make unit_test_in_verify_ci
+        utReport: test.xml
+        covReport: coverage.xml
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "8000Mi"
+              cpu: "4000m"
+          limits:
+              memory: "8000Mi"
+              cpu: "4000m"

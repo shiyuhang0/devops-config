@@ -1,0 +1,68 @@
+pipelineName: tispark-daily-pipeline 
+repo: pingcap/tispark 
+defaultRef: master 
+triggers:
+    crons:
+    - cronString: "45 0 * * *" 
+      defaultRef: "master"
+tasks:
+    - taskName: "tispark-fmt" 
+      checkerName: "common-check" 
+      params:  
+        shellScript: |
+            export LC_ALL=en_US.UTF-8
+            export LANG=en_US.UTF-8
+            export LANGUAGE=en_US.UTF-8
+            mvn mvn-scalafmt_2.12:format -Dscalafmt.skip=false -B
+            mvn com.coveo:fmt-maven-plugin:format -B
+            git diff --quiet
+            formatted="$?"
+            if [[ "${formatted}" -eq 1 ]]
+            then
+            echo "code format error, please run the following commands:"
+            echo "   mvn mvn-scalafmt_2.12:format -Dscalafmt.skip=false"
+            echo "   mvn com.coveo:fmt-maven-plugin:format"
+            exit 1
+            fi
+      image: hub.pingcap.net/jenkins/centos7_golang-1.13_java:latest
+      resources:  
+          requests:
+              memory: "4000Mi"
+              cpu: "2000m"
+          limits:
+              memory: "4000Mi"
+              cpu: "2000m"
+
+    - taskName: "tispark-build" 
+      checkerName: "common-check" 
+      params: 
+        shellScript: |
+            archive_url=http://fileserver.pingcap.net/download/builds/pingcap/tispark/cache/tispark-m2-cache-latest.tar.gz
+            if [ ! "$(ls -A /maven/.m2/repository)" ]
+            then curl -sL $archive_url | tar -zx -C /maven || true
+            fi
+            mvn -T 1C clean package -Dmaven.test.skip=true -B
+      image: hub.pingcap.net/jenkins/centos7_golang-1.13_java:latest
+      resources:  
+          requests:
+              memory: "4000Mi"
+              cpu: "2000m"
+          limits:
+              memory: "4000Mi"
+              cpu: "2000m"
+
+    - taskName: tispark-ingegration-test
+      checkerName: "jenkins-it-trigger-check" 
+      params: 
+        itJobName: daily-trigger-tispark-ingegration-test
+      image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
+      resources:  
+          requests:
+              memory: "100Mi"
+              cpu: "200m"
+          limits:
+              memory: "200Mi"
+              cpu: "400m"
+
+notify:
+    lark: [shiyuhang0, xuanyu66]
