@@ -55,7 +55,7 @@ tasks:
       checkerName: "jenkins-it-trigger-check" 
       params: 
         itJobName: daily-trigger-tispark-ingegration-test
-      timeout: 180
+      timeout: 210
       image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
       resources:  
           requests:
