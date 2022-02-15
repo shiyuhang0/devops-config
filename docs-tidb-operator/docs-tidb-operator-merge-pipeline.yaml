@@ -1,15 +1,15 @@
-pipelineName: docs-tidb-operator-merge-pipeline 
+pipelineName: docs-tidb-operator-merge-pipeline
 repo: pingcap/docs-tidb-operator
-defaultRef: master 
+defaultRef: master
 triggers:
   push:
       onBranch:
       - "master"
       - "release-*"
 tasks:
-    - taskName: "docs-tidb-operator-build-pdf" 
-      checkerName: "common-check" 
-      params:  
+    - taskName: "docs-tidb-operator-build-pdf"
+      checkerName: "common-check"
+      params:
         shellScript: |
           sudo pip3 install boto3
           sudo pip3 install awscli
@@ -21,9 +21,12 @@ tasks:
           if [ "${TARGET_BRANCH}" = "master" ]; then
             python3 scripts/upload.py output_en.pdf tidb-in-kubernetes-dev-en-manual.pdf;
             python3 scripts/upload.py output_zh.pdf tidb-in-kubernetes-dev-zh-manual.pdf;
-          elif [ "${TARGET_BRANCH}" = "release-1.2" ]; then
+          elif [ "${TARGET_BRANCH}" = "release-1.3" ]; then
             python3 scripts/upload.py output_en.pdf tidb-in-kubernetes-stable-en-manual.pdf;
             python3 scripts/upload.py output_zh.pdf tidb-in-kubernetes-stable-zh-manual.pdf;
+          elif [ "${TARGET_BRANCH}" = "release-1.2" ]; then
+            python3 scripts/upload.py output_en.pdf tidb-in-kubernetes-v1.2-en-manual.pdf;
+            python3 scripts/upload.py output_zh.pdf tidb-in-kubernetes-v1.2-zh-manual.pdf;
           elif [ "${TARGET_BRANCH}" = "release-1.1" ]; then
             python3 scripts/upload.py output_en.pdf tidb-in-kubernetes-v1.1-en-manual.pdf;
             python3 scripts/upload.py output_zh.pdf tidb-in-kubernetes-v1.1-zh-manual.pdf;
@@ -47,7 +50,7 @@ tasks:
         - jenkinsID: docs-cn-qiniu-bn
           key: QINIU_BUCKET_NAME
       image: "hub.pingcap.net/jenkins/docs-cn-checker:v0.0.1"
-      resources:  
+      resources:
           requests:
               memory: "1000Mi"
               cpu: "500m"
