@@ -44,9 +44,10 @@ tasks:
       checkerName: "ut-check" 
       params:  
         shellScript: |
+            cd br/
             make unit_test_in_verify_ci
-        utReport: br-junit-report.xml
-        covReport: /br_cov.unit_test.out
+        utReport: br/br-junit-report.xml
+        covReport: br/br_cov.unit_test.out
       image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
       resources:  
           requests:
@@ -62,8 +63,8 @@ tasks:
         shellScript: |
             cd cdc/
             make unit_test_in_verify_ci
-        utReport: cdc-junit-report.xml
-        covReport: cdc-coverage.xml
+        utReport: cdc/cdc-junit-report.xml
+        covReport: cdc/cdc-coverage.xml
       image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
       resources:  
           requests:
