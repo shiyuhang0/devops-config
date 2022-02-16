@@ -95,7 +95,7 @@ tasks:
         shellScript: |
             cd cdc/
             make cdc
-        outputDir : "cdc/bin/bin/"
+        outputDir : "cdc/bin/"
       image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"  
       resources:  
           requests:
