@@ -56,6 +56,9 @@ tasks:
           limits:
               memory: "30000Mi"
               cpu: "16000m"
+      credentials:
+        - jenkinsID: codecov-token-tikv-migration
+          key: TIKV_MIGRATION_CODECOV_TOKEN
 
     - taskName: "cdc-ut" 
       checkerName: "ut-check" 
@@ -73,6 +76,9 @@ tasks:
           limits:
               memory: "30000Mi"
               cpu: "16000m"
+      credentials:
+        - jenkinsID: codecov-token-tikv-migration
+          key: TIKV_MIGRATION_CODECOV_TOKEN
 
     - taskName: "cdc-lint" 
       checkerName: "lint-check" 
