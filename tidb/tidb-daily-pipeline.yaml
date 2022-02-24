@@ -107,8 +107,8 @@ tasks:
               memory: "4000Mi"
               cpu: "2000m"
           limits:
-              memory: "8000Mi"
-              cpu: "4000m"
+              memory: "32000Mi"
+              cpu: "16000m"
 
     - taskName: "tidb-leak" 
       checkerName: "ut-check" 
@@ -133,8 +133,8 @@ tasks:
               memory: "4000Mi"
               cpu: "2000m"
           limits:
-              memory: "8000Mi"
-              cpu: "4000m"
+              memory: "32000Mi"
+              cpu: "16000m"
 
     - taskName: "tidb-lint" 
       checkerName: "lint-check" 
@@ -170,8 +170,8 @@ tasks:
               memory: "4000Mi"
               cpu: "2000m"
           limits:
-              memory: "8000Mi"
-              cpu: "4000m"
+              memory: "32000Mi"
+              cpu: "16000m"
 
     - taskName: "tidb-common-test" 
       checkerName: "jenkins-it-trigger-check" 
