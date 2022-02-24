@@ -76,8 +76,8 @@ tasks:
               memory: "4000Mi"
               cpu: "2000m"
           limits:
-              memory: "8000Mi"
-              cpu: "4000m"
+              memory: "32000Mi"
+              cpu: "16000m"
       credentials:
         - jenkinsID: codecov-token-tidb
           key: CODECOV_TOKEN
