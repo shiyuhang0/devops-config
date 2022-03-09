@@ -1,0 +1,26 @@
+pipelineName: tibigdata-daily-pipeline
+repo: tidb-incubator/TiBigData
+defaultRef: master
+triggers:
+  crons:
+    - cronString: "45 0 * * *"
+      defaultRef: "master"
+
+
+  - taskName: "tibigdata-integration-test"
+    checkerName: "jenkins-it-trigger-check"
+    params:
+      itJobName: daily-trigger-tibigdata-integration-test
+    timeout: 150
+    image: "hub.pingcap.net/jenkins/centos7_golang-1.16:latest"
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "200m"
+      limits:
+        memory: "200Mi"
+        cpu: "400m"
+
+notify:
+  lark: [shiyuhang0, xuanyu66]
+  email: []
