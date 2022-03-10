@@ -5,9 +5,8 @@ triggers:
   crons:
     - cronString: "45 0 * * *"
       defaultRef: "master"
-
-
-  - taskName: "tibigdata-integration-test"
+tasks:
+  - taskName: tibigdata-integration-test
     checkerName: "jenkins-it-trigger-check"
     params:
       itJobName: daily-trigger-tibigdata-integration-test
